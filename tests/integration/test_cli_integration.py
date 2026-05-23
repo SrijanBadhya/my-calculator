@@ -15,19 +15,21 @@ class TestCLIIntegration:
     def run_cli(self, *args):
         """Helper method to run CLI and capture output"""
         import os
-        
-        # Copy the runner's environment (which contains the job's PYTHONPATH)
+        import sys
+        import subprocess
+
+        # Copy the current runner environment
         env = os.environ.copy()
         
-        # If PYTHONPATH isn't set dynamically, inject the absolute path to current directory
-        if "PYTHONPATH" not in env:
-            env["PYTHONPATH"] = os.path.abspath(".")
+        # Force the PYTHONPATH to resolve to an absolute workspace path 
+        # This overrides the relative "." with a clean, fully qualified absolute path
+        env["PYTHONPATH"] = os.path.abspath(".")
             
         cmd = [sys.executable, "-m", "src.cli"] + list(args)
         
-        # Pass the env dictionary into the subprocess
         result = subprocess.run(cmd, capture_output=True, text=True, cwd=".", env=env)
         return result
+        
 
     def test_cli_add_integration(self):
         """Test CLI can perform addition"""
