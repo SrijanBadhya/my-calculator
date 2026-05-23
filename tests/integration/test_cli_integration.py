@@ -19,7 +19,7 @@ class TestCLIIntegration:
         env = os.environ.copy()
         env["PYTHONPATH"] = os.path.abspath(".")
 
-        cmd = [sys.executable, "-m", "src.CLI"] + list(args)
+        cmd = [sys.executable, "-m", "src.cli"] + list(args)
         result = subprocess.run(cmd, capture_output=True, text=True, cwd=".")
         return result
 
