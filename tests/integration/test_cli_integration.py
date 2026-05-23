@@ -13,14 +13,20 @@ class TestCLIIntegration:
     calculator module"""
 
     def run_cli(self, *args):
-        """Helper method to run CLI and capture
-        output"""
-
+        """Helper method to run CLI and capture output"""
+        import os
+        
+        # Copy the runner's environment (which contains the job's PYTHONPATH)
         env = os.environ.copy()
-        env["PYTHONPATH"] = os.path.abspath(".")
-
+        
+        # If PYTHONPATH isn't set dynamically, inject the absolute path to current directory
+        if "PYTHONPATH" not in env:
+            env["PYTHONPATH"] = os.path.abspath(".")
+            
         cmd = [sys.executable, "-m", "src.cli"] + list(args)
-        result = subprocess.run(cmd, capture_output=True, text=True, cwd=".")
+        
+        # Pass the env dictionary into the subprocess
+        result = subprocess.run(cmd, capture_output=True, text=True, cwd=".", env=env)
         return result
 
     def test_cli_add_integration(self):
