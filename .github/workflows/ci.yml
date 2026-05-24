@@ -55,6 +55,14 @@ jobs:
           pip install pytest click
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
+      # This diagnostic step lets the pipeline show us the exact layout of your repository on GitHub
+      - name: Debug Workspace File Structure
+        run: |
+          echo "=== Current Working Directory ==="
+          pwd
+          echo "=== Top-Level Directory Files ==="
+          ls -R
+
       - name: Run tests (verbose)
         run: pytest tests/ -v
 
