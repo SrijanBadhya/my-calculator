@@ -18,21 +18,26 @@ class TestCLIIntegration:
         import sys
         import subprocess
 
-        # 1. Find the absolute path of this specific test file
-        test_file_path = os.path.abspath(__file__) # targets 'tests/integration/test_cli_integration.py'
-        
-        # 2. Go up two levels to find the true project root directory
-        integration_dir = os.path.dirname(test_file_path) # 'tests/integration'
-        tests_dir = os.path.dirname(integration_dir)       # 'tests'
-        project_root = os.path.dirname(tests_dir)          # 'my-calculator' root folder
-        
-        # 3. Copy and set up the environment
+        # Start from the directory where this integration test file lives
+        current_dir = os.path.dirname(os.path.abspath(__file__))
+        project_root = current_dir
+
+        # Traverse upwards until we find the folder that contains 'src'
+        while project_root and project_root != os.path.dirname(project_root):
+            if os.path.exists(os.path.join(project_root, "src")):
+                break
+            project_root = os.path.dirname(project_root)
+        else:
+            # Fallback to current directory context if 'src' isn't explicitly found
+            project_root = os.path.abspath(".")
+            
+        # Copy and clean the runtime environment 
         env = os.environ.copy()
         env["PYTHONPATH"] = project_root
             
         cmd = [sys.executable, "-m", "src.cli"] + list(args)
         
-        # 4. Explicitly run the command from the true project root directory
+        # Execute the process directly from the validated project root folder
         result = subprocess.run(cmd, capture_output=True, text=True, cwd=project_root, env=env)
         return result
         
