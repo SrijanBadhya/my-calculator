@@ -56,6 +56,11 @@ jobs:
           pip install pytest click
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
+      - name: Clear workspace caches
+        run: |
+          rm -rf .pytest_cache htmlcov || true
+          rm -rf ~/.cache/pip || true
+
       # This diagnostic step lets the pipeline show us the exact layout of your repository on GitHub
       - name: Inspect Runner Files and Folder Case
         run: |
@@ -88,6 +93,11 @@ jobs:
           python -m pip install --upgrade pip
           pip install pytest pytest-cov click
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+
+      - name: Clear workspace caches
+        run: |
+          rm -rf .pytest_cache htmlcov || true
+          rm -rf ~/.cache/pip || true
 
       - name: Run tests with coverage and generate HTML report
         run: python -m pytest tests/ --cov=src --cov-report=html
