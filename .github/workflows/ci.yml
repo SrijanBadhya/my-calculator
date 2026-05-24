@@ -56,11 +56,13 @@ jobs:
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
       # This diagnostic step lets the pipeline show us the exact layout of your repository on GitHub
-      - name: Debug Workspace File Structure
+      - name: Inspect Runner Files and Folder Case
         run: |
-          echo "=== Current Working Directory ==="
+          echo "=== Where am I running? ==="
           pwd
-          echo "=== Top-Level Directory Files ==="
+          echo "=== What folders exist here? ==="
+          ls -la
+          echo "=== Looking inside folders ==="
           ls -R
 
       - name: Run tests (verbose)
