@@ -8,6 +8,7 @@ on:
 
 env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: "true"
+  PYTHONPATH: .
 
 jobs:
   build:
@@ -66,7 +67,7 @@ jobs:
           ls -R
 
       - name: Run tests (verbose)
-        run: pytest tests/ -v
+        run: python -m pytest tests/ -v
 
   coverage:
     runs-on: ubuntu-latest
@@ -89,7 +90,7 @@ jobs:
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
       - name: Run tests with coverage and generate HTML report
-        run: pytest tests/ --cov=src --cov-report=html
+        run: python -m pytest tests/ --cov=src --cov-report=html
 
       - name: Upload coverage HTML
         uses: actions/upload-artifact@v4
