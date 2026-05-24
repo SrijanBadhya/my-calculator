@@ -18,16 +18,22 @@ class TestCLIIntegration:
         import sys
         import subprocess
 
-        # Copy the current runner environment
-        env = os.environ.copy()
+        # 1. Find the absolute path of this specific test file
+        test_file_path = os.path.abspath(__file__) # targets 'tests/integration/test_cli_integration.py'
         
-        # Force the PYTHONPATH to resolve to an absolute workspace path 
-        # This overrides the relative "." with a clean, fully qualified absolute path
-        env["PYTHONPATH"] = os.path.abspath(".")
+        # 2. Go up two levels to find the true project root directory
+        integration_dir = os.path.dirname(test_file_path) # 'tests/integration'
+        tests_dir = os.path.dirname(integration_dir)       # 'tests'
+        project_root = os.path.dirname(tests_dir)          # 'my-calculator' root folder
+        
+        # 3. Copy and set up the environment
+        env = os.environ.copy()
+        env["PYTHONPATH"] = project_root
             
         cmd = [sys.executable, "-m", "src.cli"] + list(args)
         
-        result = subprocess.run(cmd, capture_output=True, text=True, cwd=".", env=env)
+        # 4. Explicitly run the command from the true project root directory
+        result = subprocess.run(cmd, capture_output=True, text=True, cwd=project_root, env=env)
         return result
         
 
