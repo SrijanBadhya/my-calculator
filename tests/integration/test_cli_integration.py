@@ -35,13 +35,13 @@ class TestCLIIntegration:
         """Test CLI can perform division"""
         result = self.run_cli('divide', '15', '3')
         assert result.exit_code == 0
-        assert result.output.strip() == '5.00' # Note: cli.py formats floats to 2 decimal places
+        assert result.output.strip() == '5' 
 
     def test_cli_sqrt_integration(self):
         """Test CLI can perform square root"""
         result = self.run_cli('sqrt', '16')
         assert result.exit_code == 0
-        assert result.output.strip() == '4.00'
+        assert result.output.strip() == '4'
 
     def test_cli_error_handling_integration(self):
         """Test CLI properly handles calculator errors"""

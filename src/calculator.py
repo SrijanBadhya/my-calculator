@@ -50,7 +50,7 @@ def square_root(a):
     return a**0.5
 
 
-if __name__ == "__main__":
+if __name__ == "__main__": # pragma: no cover
     print("🧮 Calculator Module")
     print(f"2 + 3 = {add(2, 3)}")
     print(f"5 - 2 = {subtract(5, 2)}")
