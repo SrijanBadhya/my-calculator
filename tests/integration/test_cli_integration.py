@@ -19,25 +19,30 @@ class TestCLIIntegration:
         import subprocess
 
         # 1. Locate the absolute folder containing this specific integration test file
-        current_dir = os.path.dirname(os.path.abspath(__file__)) # points to my-calculator/tests/integration
-        
+        current_dir = os.path.dirname(
+            os.path.abspath(__file__)
+        )  # points to my-calculator/tests/integration
+
         # 2. Walk straight up to find the true project root directory
-        tests_dir = os.path.dirname(current_dir)                 # points to my-calculator/tests
-        project_root = os.path.dirname(tests_dir)              # points strictly to the inner my-calculator root
+        tests_dir = os.path.dirname(current_dir)  # points to my-calculator/tests
+        project_root = os.path.dirname(
+            tests_dir
+        )  # points strictly to the inner my-calculator root
 
         # 3. Target the absolute, direct path to your cli.py file
         cli_script_path = os.path.join(project_root, "src", "cli.py")
-        
+
         # 4. Construct the environment dictionary explicitly mapping the root
         env = os.environ.copy()
         env["PYTHONPATH"] = project_root
-            
+
         # 5. Run the python script file explicitly by its direct absolute path location
         cmd = [sys.executable, cli_script_path] + list(args)
-        
-        result = subprocess.run(cmd, capture_output=True, text=True, cwd=project_root, env=env)
+
+        result = subprocess.run(
+            cmd, capture_output=True, text=True, cwd=project_root, env=env
+        )
         return result
-        
 
     def test_cli_add_integration(self):
         """Test CLI can perform addition"""

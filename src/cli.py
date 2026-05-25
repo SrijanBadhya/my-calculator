@@ -26,7 +26,7 @@ def calculate(operation, num1, num2=None):
         else:
             click.echo(f"Unknown operation: {operation}")
             sys.exit(1)
-            
+
         # Format and output the result cleanly
         if isinstance(result, float) and result.is_integer():
             click.echo(int(result))
