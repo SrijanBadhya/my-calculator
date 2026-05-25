@@ -26,7 +26,7 @@ def calculate(operation, num1, num2=None):
             result = divide(num1, num2)
         elif operation == "power":
             result = power(num1, num2)
-        elif operation == "square_root" or operation == "sqrt":
+        elif operation in ("square_root", "sqrt"):
             result = square_root(num1)
         else:
             click.echo(f"Unknown operation: {operation}")
@@ -44,9 +44,8 @@ def calculate(operation, num1, num2=None):
     except ValueError as e:
         click.echo(f"Error: {e}")
         sys.exit(1)
-    except Exception as e:
-
-        click.echo(f"Unexpected error: {e}")
+    except TypeError as e:
+        click.echo(f"Type error: {e}")
         sys.exit(1)
 
 
